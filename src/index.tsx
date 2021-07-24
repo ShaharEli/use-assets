@@ -14,16 +14,15 @@ interface Module {
 }
 type Pic = Module | string;
 
-let rendered = false;
+let cachedAssets: Obj | null = null;
 export const useAssets = () => {
   const [assetsPaths, setAssetsPaths] = useState<string[]>([]);
-  const [loadingAssets, setLoadingAssets] = useState<boolean>(true);
+  const [loadingAssets, setLoadingAssets] = useState<boolean>(!!cachedAssets);
   const [error, setError] = useState<string | null>(null);
-  const [assets, setAssets] = useState<Obj>({});
+  const [assets, setAssets] = useState<Obj>(cachedAssets || {});
   const [assetsTree, setAssetsTree] = useState<any>({});
   const fetchAssets = useCallback(async () => {
-    if (rendered) return; //make sure the the assets only imported once
-    rendered = true;
+    if (cachedAssets) return; //make sure the the assets only imported once
     try {
       const getAssetsData = () =>
         require.context("../../../src", true, /\.(png|jpe?g|svg)$/, "lazy");
@@ -46,8 +45,10 @@ export const useAssets = () => {
       )
         // @ts-ignore
         .map((pic: Pic) => (pic?.default ? pic.default : pic));
-      setAssets(chainImageToName(allImagesPaths, assetsImports));
+      const formattedAssets = chainImageToName(allImagesPaths, assetsImports);
+      setAssets(formattedAssets);
       setLoadingAssets(false);
+      cachedAssets = formattedAssets;
     } catch ({ message }) {
       setError(message);
     } finally {
@@ -67,7 +68,7 @@ export const useAssets = () => {
     loadingAssets,
     printTree,
     refetch: async () => {
-      rendered = false;
+      cachedAssets = null;
       await fetchAssets();
     },
     assetsPaths,
