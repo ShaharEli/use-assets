@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { chainImageToName, getTree } from "./utils";
-const importAll = async (r: any) => {
+const importAll = async (r: any): Promise<Pic[]> => {
   return await Promise.all(r.keys().map(r));
 };
 
@@ -8,6 +8,13 @@ type Obj = {
   [key: string]: string;
 };
 
+interface Module {
+  default: string;
+  Symbol: Symbol;
+}
+type Pic = Module | string;
+
+let rendered = false;
 export const useAssets = () => {
   const [assetsPaths, setAssetsPaths] = useState<string[]>([]);
   const [loadingAssets, setLoadingAssets] = useState<boolean>(true);
@@ -15,15 +22,11 @@ export const useAssets = () => {
   const [assets, setAssets] = useState<Obj>({});
   const [assetsTree, setAssetsTree] = useState<any>({});
   const fetchAssets = useCallback(async () => {
+    if (rendered) return; //make sure the the assets only imported once
+    rendered = true;
     try {
       const getAssetsData = () =>
-        require.context(
-          // @ts-ignore
-          "../../../src",
-          true,
-          /\.(png|jpe?g|svg)$/,
-          "lazy"
-        );
+        require.context("../../../src", true, /\.(png|jpe?g|svg)$/, "lazy");
 
       const allImagesPaths = getAssetsData().keys();
       let obj = {};
@@ -38,8 +41,11 @@ export const useAssets = () => {
           getTree(path, obj);
         });
       setAssetsTree(obj);
-      const assetsImports = await importAll(getAssetsData());
-      // @ts-ignore
+      const assetsImports = await (
+        await importAll(getAssetsData())
+      )
+        // @ts-ignore
+        .map((pic: Pic) => (pic?.default ? pic.default : pic));
       setAssets(chainImageToName(allImagesPaths, assetsImports));
       setLoadingAssets(false);
     } catch ({ message }) {
@@ -60,7 +66,10 @@ export const useAssets = () => {
   return {
     loadingAssets,
     printTree,
-    refetch: fetchAssets,
+    refetch: async () => {
+      rendered = false;
+      await fetchAssets();
+    },
     assetsPaths,
     error,
     assets,

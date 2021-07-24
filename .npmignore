@@ -7,3 +7,7 @@ dist/index.es.js
 dist/index.es.js.map    
 dist/index.js.map    
 dist/index.d.ts    
+tsconfig.json 
+tsconfig.test.json
+rollup.config.js
+README.md
