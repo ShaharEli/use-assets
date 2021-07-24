@@ -1,6 +1,6 @@
 {
   "name": "use-assets",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Assets import never been easier",
   "author": "ShaharEli",
   "license": "MIT",
@@ -22,11 +22,8 @@
     "predeploy": "cd example && npm install && npm run build",
     "deploy": "gh-pages -d example/build"
   },
-  "dependencies": {
-    "app-root-path": "^3.0.0"
-  },
   "peerDependencies": {
-    "react": "^16.9.0"
+    "react": ">=16.9.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
