@@ -1,0 +1,9 @@
+examples
+src
+.env
+.travis.yml
+node_modules
+dist/index.es.js    
+dist/index.es.js.map    
+dist/index.js.map    
+dist/index.d.ts    

@@ -12,25 +12,34 @@ npm install --save use-assets
 
 ## Usage
 
-```tsx
-import * as React from 'react'
+1. Put all your images in the src folder
+2. Make sure all images have uniq name
+3. Enjoy
 
-import { useMyHook } from 'use-assets'
+```tsx
+import * as React from "react";
+
+import { useAssets } from "use-assets";
 
 const Example = () => {
-  const example = useMyHook()
+  const { loadingAssets, assetsPaths, assetsTree, assets, assetsError } =
+    useAssets();
+
+  if (assetsError) {
+    return <span>Error occurred...</span>;
+  }
+
+  if (loadingAssets) {
+    return <span>Loading assets...</span>;
+  }
   return (
     <div>
-      {example}
+      <img src={assets.cow} />
     </div>
-  )
-}
+  );
+};
 ```
 
 ## License
 
 MIT © [ShaharEli](https://github.com/ShaharEli)
-
----
-
-This hook is created using [create-react-hook](https://github.com/hermanya/create-react-hook).

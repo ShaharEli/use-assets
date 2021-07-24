@@ -19,7 +19,7 @@ export const useAssets = () => {
       const getAssetsData = () =>
         require.context(
           // @ts-ignore
-          "../example/src",
+          "../../../src",
           true,
           /\.(png|jpe?g|svg)$/,
           "lazy"
