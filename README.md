@@ -1,6 +1,10 @@
 # use-assets
 
 > Assets import never been easier
+> <br>
+> No more searching for images paths in your project!
+> <br>
+> useAssets will build assets tree for all the images in your src folder and import it to you automatically with cache
 
 [![NPM](https://img.shields.io/npm/v/use-assets.svg)](https://www.npmjs.com/package/use-assets) [![JavaScript Style Guide](https://img.shields.io/badge/code_style-standard-brightgreen.svg)](https://standardjs.com)
 
