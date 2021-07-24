@@ -1,8 +1,8 @@
 # use-assets
 
-> Assets import never been easier
+> Assets import never been easier 🚀
 > <br>
-> No more searching for images paths in your project!
+> No more searching for images paths in your project! 🔍🙅🏻‍♂️
 > <br>
 > useAssets will build assets tree for all the images in your src folder and import it to you automatically with cache
 
@@ -17,7 +17,7 @@ npm install --save use-assets
 ## Usage
 
 1. Put all your images in the src folder
-2. Make sure all images have uniq name
+2. Make sure all images have uniq name (the name of the pic is the key in the assets object)
 3. Enjoy
 
 ```tsx
@@ -43,6 +43,10 @@ const Example = () => {
   );
 };
 ```
+
+## Preview
+
+[gh pages (check the example folder in github for reference)](https://shahareli.github.io/use-assets/)
 
 ## License
 
